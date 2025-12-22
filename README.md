@@ -1,7 +1,7 @@
 # SYNAP-chronicles-web_page
 Simple web page for my game SYNAP, the godly "Stardewvalley wiki" of this game
 
-# Story Chapters
+# Story Chapters  
 00 - SYNAP: "The Promise of Forever"
 Books:
 01- Eury: The Fate of Eurelia  
