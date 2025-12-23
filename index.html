@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SYNAP — Welcome</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container" id="app">
+  <header>
+    <div class="logo">
+      <div class="mark">S</div>
+      <div>
+        <div style="font-weight:800">SYNAP</div>
+        <div style="font-size:12px;color:var(--muted)">A narrative tactical experience</div>
+      </div>
+    </div>
+    <nav class="nav" role="tablist" aria-label="Main">
+      <button id="tab-home" class="active" role="tab" aria-selected="true">Home</button>
+      <button id="tab-about" role="tab">About the Game</button>
+      <button id="tab-story" role="tab">Story</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero hero-center" id="home-panel">
+      <div style="width:100%;text-align:center">
+        <h1 class="hero-title">SYNAP</h1>
+        <p class="hero-subtitle">State Your Name And Purpose</p>
+        <div class="hero-cta"><button class="cta" onclick="showTab('tab-story')">Enter the Story</button></div>
+      </div>
+    </section>
+
+    <section class="tabs" id="about-panel" style="display:none">
+      <h3 style="margin:0 0 8px;font-family:Merriweather,serif;color:var(--accent)">About the Game</h3>
+      <div class="about">
+        <p><strong>SYNAP</strong> is a narrative-driven tactical experience where each chapter is a character; each fight is a page in their fate. (Replace this with your official description.)</p>
+        <ul>
+          <li>Play with unique Roles and Synergies</li>
+          <li>Rich character lore across 11 chapters</li>
+          <li>Combat clip integration + stat readouts</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="tabs" id="story-panel" style="display:none">
+      <div class="reader">
+        <aside class="chapters-list" aria-label="Chapters">
+          <h3>Chapters</h3>
+          <div id="chapter-list"></div>
+        </aside>
+
+        <article class="reader-pane" id="reader" aria-live="polite">
+          <div class="book-title">
+            <div class="char-icon" id="char-icon">Icon</div>
+            <div class="chapter-meta">
+              <h2 id="chapter-title">Chapter 0 — Name</h2>
+              <div class="subtitle" id="chapter-subtitle">Character role / short tagline</div>
+            </div>
+          </div>
+
+          <div class="story-text" id="story-text">
+            <span class="dropcap" id="dropcap">W</span>
+            <div id="story-body">Replace with story content. This section is where you paste the narrative of the character. It's styled to feel like a book — ample line-height and a serif typeface.</div>
+          </div>
+
+          <div class="stats" id="stats">
+            <h4>Stats</h4>
+            <ul id="stats-list">
+              <!-- Stats inserted here -->
+            </ul>
+          </div>
+
+          <div class="optimal-lineup" id="optimal-lineup" style="margin-top:12px;">
+            <h4>Optimal Lineups</h4>
+            <div id="optimal-list" class="lineup" style="display:flex;gap:10px;flex-wrap:wrap"></div>
+          </div>
+
+          <div class="attacks">
+            <div>
+              <div class="attack-card">
+                <h4>Basic Attack</h4>
+                <p class="attack-desc" id="basic-desc">Short description of the Basic Attack goes here.</p>
+              </div>
+
+              <div class="attack-card" style="margin-top:12px;">
+                <h4>Skill</h4>
+                <p class="attack-desc" id="skill-desc">Short description of the Skill goes here.</p>
+                <div id="skill-cooldown" class="skill-cooldown" style="display:none">Cooldown: 0s</div>
+              </div>
+            </div>
+
+            <aside style="display:flex;flex-direction:column;gap:12px">
+              <div class="video-wrap">
+                <label style="font-weight:700;font-size:13px">Basic Attack — Combat Clip</label>
+                <video id="video-basic" controls preload="none" poster="" src="">
+                  <!-- Replace src with your clip file -->
+                  Your browser does not support the <code>video</code> element.
+                </video>
+              </div>
+
+              <div class="video-wrap">
+                <label style="font-weight:700;font-size:13px">Skill — Combat Clip</label>
+                <video id="video-skill" controls preload="none" poster="" src="">
+                  <!-- Replace src with your clip file -->
+                  Your browser does not support the <code>video</code> element.
+                </video>
+              </div>
+            </aside>
+          </div>
+
+          <div class="controls">
+            <button class="btn" id="prev-btn">← Prev</button>
+            <button class="btn" id="next-btn">Next →</button>
+            <div style="flex:1"></div>
+            <button class="btn" id="toggle-list">Toggle Chapters</button>
+          </div>
+
+          <div class="chapter-footer">
+            <div id="chapter-counter">Chapter 0 of 10</div>
+            <div style="font-size:12px;color:var(--muted)">Use ← / → keys to navigate</div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // Chapter data: fill in your character details & story text here.
+  const chapters = [
+    {
+      id: 0,
+      title: "Chapter 0 — SYNAP",
+      subtitle: "The Promise of Forever",
+      characterName: "SYNAP",
+      image: "",
+      story: "------",
+      stats: { },
+      basic: { desc: "—", video: "" },
+      skill: { desc: "—", video: "" },
+      optimalLineup: []
+    },
+    {
+      id: 1,
+      title: "Chapter 1 — Eury",
+      subtitle: "The Fate of Eurelia",
+      characterName: "Eury",
+      image: "Icons/Eury-face.png",
+      story: "Eury",
+      stats: { HP: "280", Role: "On-Field Bruiser", Description: "Projectile Based Combattant Damaging First Enemy on HIT" },
+      basic: { desc: "3 Step Combo Dealing x,x,x Damage", video: "" },
+      skill: { desc: "Projectile Dealing 22 Damage on First Enemy HIT", video: "", cooldown: 8 },
+      optimalLineup: ["Eury","Pocholo","Epsilese"]
+    },
+    {
+      id: 2,
+      title: "Chapter 2 — Pocholo",
+      subtitle: "The Deal with the Disguised Devil",
+      characterName: "Pocholo",
+      image: "Icons/Pocholo-face.png",
+      story: "He got scammed lols",
+      stats: { HP: "200", Role: "Shielder", Description: "A sly duelist who manipulates tempo and trades." },
+      basic: { desc: "2 Step QUICK Combo Dealing x,x Damage", video: "" },
+      skill: { desc: "Quick Ready Shield Numbing 3 Hits, Lasting until 3 Hits are Depleted", video: "", cooldown: 10 },
+      optimalLineup: ["Eury","Pocholo","Epsilese"]
+    },
+    {
+      id: 3,
+      title: "Chapter 3 — Ethos",
+      subtitle: "The Fairklord Name Eternal",
+      characterName: "Ethos",
+      image: "Icons/Ethos-face.png",
+      story: "He make things go fly fly.",
+      stats: { HP: "350", Role: "On-Field Skill-Based", Description: "Loses HP to deal Massive AREA damage" },
+      basic: { desc: "2 Step Combo Dealing x,x Damage", video: "" },
+      skill: { desc: "Loses 5 HP to Deal 35 Damage to Every enemy Around", video: "", cooldown: 12 },
+      optimalLineup: ["Keyser","Hedler","Ethos"]
+    },
+    {
+      id: 4,
+      title: "Chapter 4 — Simone",
+      subtitle: "Never Withered, Never Lost",
+      characterName: "Simone",
+      image: "Icons/Simone-face.png",
+      story: "A HURRIcane OF JACARANDAS",
+      stats: { HP: "130", Role: "On-Field Bruiser", Description: "A stalwart who anchors frontline engagements." },
+      basic: { desc: "3 Step Combo Dealing x,x,x Damage", video: "" },
+      skill: { desc: "Shoots All Enemies Airborne dealing 22 Damage", video: "", cooldown: 14 },
+      optimalLineup: ["Keyser","Hedler","Simone"]
+    },
+    {
+      id: 5,
+      title: "Chapter 5 — Mackos",
+      subtitle: "Console.log(\"Mackos Embedded\")",
+      characterName: "Mackos",
+      image: "",
+      story: "--",
+      stats: { HP: "105", Role: "Off-Field Burn", Description: "An embedded thinker, bringing gadgets to the battlefield." },
+      basic: { desc: "--", video: "" },
+      skill: { desc: "--", video: "", cooldown: 11 },
+      optimalLineup: []
+    },
+    {
+      id: 6,
+      title: "Chapter 6 — Epsilese",
+      subtitle: "For She Has Already Shut Her Eyes",
+      characterName: "Epsilese",
+      image: "Icons/Epsilese-Face.png",
+      story: "Trade Heart",
+      stats: { HP: "180", Role: "Summoner", Description: "Status Splash Splash" },
+      basic: { desc: "2 Step Combo Dealing x,x Damage", video: "" },
+      skill: { desc: "Summons Area Pulsing Jellyfishes Dealing AOE damage (10,15) and Applying Soaked Debuff every (0.8s,1s), If enemy got Soaked 3 times, they have lower resistance", video: "", cooldown: 9 },
+      optimalLineup: ["Eury","Pocholo","Epsilese"]
+    },
+    {
+      id: 7,
+      title: "Chapter 7 — Hedler",
+      subtitle: "When the Beacon runs Dim",
+      characterName: "Hedler",
+      image: "Icons/Hedler-Face.png",
+      story: "--",
+      stats: { HP: "200", Role: "AOE Off-Field", Description: "Lantern BRRRRRRRR" },
+      basic: { desc: "3 Step Combo Dealing x,x,x Damage, 3rd Hit aims upwards", video: "" },
+      skill: { desc: "Summons a Lantern at a fixed Location dealing AOE Damage", video: "", cooldown: 13 },
+      optimalLineup: ["Keyser","Hedler","Simone"]
+    },
+    {
+      id: 8,
+      title: "Chapter 8 — Ferriols",
+      subtitle: "Of Passion and Fury, Of Gods and Glory",
+      characterName: "Ferriols",
+      image: "",
+      story: "---.",
+      stats: { HP: "120", Role: "Berserker", Description: "Fierce offense that trades defense for power." },
+      basic: { desc: "3 Step Combo Dealing x,x,x Damage", video: "" },
+      skill: { desc: "---", video: "", cooldown: 10 },
+      optimalLineup: []
+    },
+    {
+      id: 9,
+      title: "Chapter 9 — Fidyr",
+      subtitle: "Requiems for the Lost, Ode to the Executed",
+      characterName: "Fidyr",
+      image: "",
+      story: "---",
+      stats: { HP: "90", Role: "Assassin", Description: "A cold precision killer who thrives on perfect trades." },
+      basic: { desc: "2 Step Combo Dealing x,x Damage", video: "" },
+      skill: { desc: "---", video: "", cooldown: 7 },
+      optimalLineup: []
+    },
+    {
+      id: 10,
+      title: "Chapter 10 — Keyser",
+      subtitle: "The Legacy of the Golden Child",
+      characterName: "Keyser",
+      image: "Icons/Keyser-Face.png",
+      story: "Dead",
+      stats: { HP: "140", Role: "Shielder", Description: "Gold" },
+      basic: { desc: "3 Step Combo Dealing 8,9,10 Damage", video: "videos/Keyser-Basic.mp4" },
+      skill: { desc: "AOE Damage dealing 12 Damage proceeded by a 5 second immunity Shield", video: "videos/Keyser-Skill.mp4", cooldown: 15 },
+      optimalLineup: ["Keyser","Hedler","Simone"]
+    }
+  ];
+
+  // If you haven't added all 11 yet, this helper will ensure we still have placeholders to show navigation up to 10.
+  for (let i = chapters.length; i <= 10; i++) {
+    chapters[i] = chapters[i] || {
+      id: i,
+      title: `Chapter ${i} — [Character ${i}]`,
+      subtitle: "Role · [tagline]",
+      characterName: `[Character ${i}]`,
+      image: "",
+      story: `Story text for Chapter ${i} — replace this with the real narrative.`,
+      stats: { HP: "—", Role: "—" },
+      basic: { desc: "Basic Attack description.", video: "" },
+      skill: { desc: "Skill description.", video: "" }
+    };
+  }
+
+  // DOM refs
+  const listEl = document.getElementById('chapter-list');
+  const titleEl = document.getElementById('chapter-title');
+  const subtitleEl = document.getElementById('chapter-subtitle');
+  const iconEl = document.getElementById('char-icon');
+  const storyBodyEl = document.getElementById('story-body');
+  const dropcapEl = document.getElementById('dropcap');
+  const statsListEl = document.getElementById('stats-list');
+  const basicDesc = document.getElementById('basic-desc');
+  const skillDesc = document.getElementById('skill-desc');
+  const skillCooldownEl = document.getElementById('skill-cooldown');
+  const videoBasic = document.getElementById('video-basic');
+  const videoSkill = document.getElementById('video-skill');
+  const chapterCounter = document.getElementById('chapter-counter');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const toggleListBtn = document.getElementById('toggle-list');
+
+  // Tabs
+  const tabs = {
+    home: document.getElementById('home-panel'),
+    about: document.getElementById('about-panel'),
+    story: document.getElementById('story-panel')
+  };
+  const tabButtons = {
+    home: document.getElementById('tab-home'),
+    about: document.getElementById('tab-about'),
+    story: document.getElementById('tab-story')
+  };
+  function showTab(tabId){
+    // hide all
+    tabs.home.style.display = 'none';
+    tabs.about.style.display = 'none';
+    tabs.story.style.display = 'none';
+    tabButtons.home.classList.remove('active');
+    tabButtons.about.classList.remove('active');
+    tabButtons.story.classList.remove('active');
+    // show
+    if(tabId === 'tab-about') { tabs.about.style.display='block'; tabButtons.about.classList.add('active');}
+    else if(tabId === 'tab-story') { tabs.story.style.display='block'; tabButtons.story.classList.add('active');}
+    else { tabs.home.style.display='flex'; tabButtons.home.classList.add('active'); }
+  }
+  tabButtons.home.addEventListener('click', ()=>showTab('tab-home'));
+  tabButtons.about.addEventListener('click', ()=>showTab('tab-about'));
+  tabButtons.story.addEventListener('click', ()=>showTab('tab-story'));
+
+  // Build chapter list
+  let current = 0;
+  function renderChapterList(){
+    listEl.innerHTML = '';
+    chapters.forEach(ch => {
+      const a = document.createElement('button');
+      a.className = 'chapter-item';
+      // Format like: "Chapter 1: Eury — The Fate of Eurelia"
+      a.textContent = `Chapter ${ch.id}: ${ch.characterName} — ${ch.subtitle}`;
+      a.setAttribute('data-id', ch.id);
+      a.onclick = ()=>goToChapter(ch.id);
+      if(ch.id === current) a.classList.add('active');
+      listEl.appendChild(a);
+    });
+  }
+
+  function renderChapter(idx){
+    const ch = chapters[idx];
+    if(!ch) return;
+    titleEl.textContent = ch.title;
+    // surround subtitle with dashes for the "book" feel
+    subtitleEl.textContent = `--- ${ch.subtitle} ---`;
+
+    // icon: use image or fallback to initials
+    if(ch.image){
+      iconEl.style.backgroundImage = `url('${ch.image}')`;
+      iconEl.style.backgroundSize = 'cover';
+      iconEl.textContent = '';
+    } else {
+      iconEl.style.backgroundImage = 'none';
+      iconEl.textContent = ch.characterName ? ch.characterName.split(' ').map(s=>s[0]).join('').slice(0,2) : 'Ic';
+    }
+
+    // story
+    const text = ch.story || '';
+    storyBodyEl.textContent = text;
+    dropcapEl.textContent = text.trim().charAt(0) || '';
+
+    // Chapter 0 special case: full text only
+    const statsContainer = document.getElementById('stats');
+    const attacksEl = document.querySelector('.attacks');
+    const controlsEl = document.querySelector('.controls');
+
+    if(ch.id === 0){
+      // hide peripheral UI
+      statsContainer.style.display = 'none';
+      document.getElementById('optimal-lineup').style.display = 'none';
+      attacksEl.style.display = 'none';
+      controlsEl.style.display = 'none';
+      // make story feel like a long wall of text
+      document.getElementById('reader').classList.add('chapter0');
+    } else {
+      statsContainer.style.display = '';
+      document.getElementById('optimal-lineup').style.display = '';
+      attacksEl.style.display = '';
+      controlsEl.style.display = '';
+      document.getElementById('reader').classList.remove('chapter0');
+    }
+
+    // stats
+    statsListEl.innerHTML = '';
+
+    if(ch.stats && ch.id !== 0){
+      for(const [k,v] of Object.entries(ch.stats)){
+        if(k.toLowerCase() === 'description') continue; // handle separately
+        const li = document.createElement('li');
+        li.className = 'stat-item';
+        li.innerHTML = `<strong>${k}:</strong> ${v}`;
+        statsListEl.appendChild(li);
+      }
+      // description (optional)
+      const prevDesc = statsContainer.querySelector('.desc');
+      if(prevDesc) prevDesc.remove();
+      if(ch.stats.Description){
+        const p = document.createElement('div');
+        p.className = 'desc';
+        p.textContent = ch.stats.Description;
+        statsContainer.appendChild(p);
+      }
+    }
+
+    // attacks
+    basicDesc.textContent = ch.basic && ch.basic.desc ? ch.basic.desc : '';
+    skillDesc.textContent = ch.skill && ch.skill.desc ? ch.skill.desc : '';
+
+    // skill cooldown display
+    if(ch.skill && typeof ch.skill.cooldown !== 'undefined' && ch.id !== 0){
+      skillCooldownEl.style.display = 'block';
+      skillCooldownEl.textContent = `Cooldown: ${ch.skill.cooldown}s`;
+    } else {
+      skillCooldownEl.style.display = 'none';
+    }
+
+    // videos (hide on chapter 0)
+    if(ch.id !== 0 && ch.basic && ch.basic.video){
+      videoBasic.src = ch.basic.video;
+      videoBasic.poster = '';
+      videoBasic.style.display = 'block';
+    } else {
+      videoBasic.src = '';
+      videoBasic.style.display = 'none';
+    }
+    if(ch.id !== 0 && ch.skill && ch.skill.video){
+      videoSkill.src = ch.skill.video;
+      videoSkill.poster = '';
+      videoSkill.style.display = 'block';
+    } else {
+      videoSkill.src = '';
+      videoSkill.style.display = 'none';
+    }
+
+    // Optimal lineup
+    const optimalEl = document.getElementById('optimal-list');
+    optimalEl.innerHTML = '';
+    if(ch.optimalLineup && ch.optimalLineup.length && ch.id !== 0){
+      document.getElementById('optimal-lineup').style.display = 'block';
+      ch.optimalLineup.forEach(name => {
+        const member = document.createElement('button');
+        member.className = 'member';
+        // find chapter by name (case-insensitive)
+        const target = chapters.find(c => c.characterName && c.characterName.toLowerCase() === name.toLowerCase());
+        if(target && target.image){
+          const img = document.createElement('img');
+          img.src = target.image;
+          img.alt = name;
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'cover';
+          member.appendChild(img);
+        } else {
+          // fallback to initials
+          member.textContent = name.split(' ').map(s=>s[0]).join('').slice(0,2);
+        }
+        member.title = name;
+        member.onclick = ()=>{
+          if(target) goToChapter(target.id);
+        };
+        optimalEl.appendChild(member);
+      });
+    } else {
+      document.getElementById('optimal-lineup').style.display = 'none';
+    }
+
+    // counter and list active style
+    chapterCounter.textContent = `Chapter ${ch.id} of 10`;
+    document.querySelectorAll('.chapter-item').forEach(btn=>btn.classList.remove('active'));
+    const activeBtn = document.querySelector(`.chapter-item[data-id='${idx}']`);
+    if(activeBtn) activeBtn.classList.add('active');
+  }
+
+  function goToChapter(idx){
+    if(idx < 0) idx = 0;
+    if(idx > 10) idx = 10;
+    current = idx;
+    renderChapter(current);
+    // focus the reader for keyboard support
+    document.getElementById('reader').focus();
+  }
+
+  // Prev / Next
+  prevBtn.addEventListener('click', ()=>goToChapter(Math.max(0, current-1)));
+  nextBtn.addEventListener('click', ()=>goToChapter(Math.min(10, current+1)));
+  // Keyboard navigation
+  document.addEventListener('keydown', (e)=>{
+    if(document.getElementById('story-panel').style.display === 'block'){
+      if(e.key === 'ArrowLeft') goToChapter(Math.max(0, current-1));
+      if(e.key === 'ArrowRight') goToChapter(Math.min(10, current+1));
+    }
+  });
+
+  // Toggle list (useful on mobile)
+  toggleListBtn.addEventListener('click', ()=>{
+    const list = document.querySelector('.chapters-list');
+    list.style.display = list.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // initialize
+  renderChapterList();
+  goToChapter(0);
+  // default show home tab
+  showTab('tab-home');
+
+  // Expose some helpers to console for quick editing:
+  window.SYNAP = {
+    chapters,
+    goToChapter,
+    renderChapterList,
+    renderChapter
+  };
+</script>
+</body>
+</html>
