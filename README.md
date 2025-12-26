@@ -26,8 +26,8 @@ Books:
 16 - Daedalus:  (Immortality and the Loss of Aspiration)  
 17 - Nryx: (Immortality and the Loss of Purpose)  
 18 - Vivian: (Immortality and the Loss of Dependence)  
-19 -
-20 -
+19 - (Immortality and the Loss of Morality)
+20 - (Immortality and the Loss of Urgency)
 
 # Final Chapter
 21 - SYNAP: "Mortality and Humanity": (Immortality and the Loss of Being Human)  
