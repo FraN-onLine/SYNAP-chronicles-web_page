@@ -38,7 +38,9 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .chapter-meta h2{font-family:Merriweather,serif;margin:0;font-size:22px}
 .chapter-meta .subtitle{color:var(--muted);font-size:13px;margin-top:6px}
 .story-text{font-family:Merriweather,serif;font-size:17px;line-height:1.8;color:#182233;margin-top:18px}
-.dropcap{float:left;font-size:46px;line-height:44px;margin-right:10px;font-weight:700;color:var(--accent);font-family:Merriweather,serif}
+.dropcap{float:left;font-size:56px;line-height:48px;margin-right:12px;font-weight:800;color:#d4a017;font-family:Merriweather,serif}
+.story-text p{margin:0 0 12px}
+.story-text blockquote{margin:0 0 12px;padding-left:16px;border-left:3px solid rgba(181,139,31,0.18);color:var(--muted);font-style:italic}
 .stats{margin-top:16px;padding:12px;background:#fff;border-radius:8px;border:1px solid rgba(16,24,40,0.03)}
 .stats h4{margin:0 0 8px;font-size:15px}
 .stats ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
