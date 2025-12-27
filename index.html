@@ -40,7 +40,7 @@
         <ul>
           <li>Play with unique Roles and Synergies</li>
           <li>Rich character lore across 11 chapters</li>
-          <li>Combat clip integration + stat readouts</li>
+          <li>Welcome to World of SYNAP</li>
         </ul>
       </div>
     </section>
@@ -69,7 +69,6 @@
           <div class="stats" id="stats">
             <h4>Stats</h4>
             <ul id="stats-list">
-              <!-- Stats inserted here -->
             </ul>
           </div>
 
@@ -96,7 +95,6 @@
               <div class="video-wrap">
                 <label style="font-weight:700;font-size:13px">Basic Attack — Combat Clip</label>
                 <video id="video-basic" controls preload="none" poster="" src="">
-                  <!-- Replace src with your clip file -->
                   Your browser does not support the <code>video</code> element.
                 </video>
               </div>
@@ -104,7 +102,6 @@
               <div class="video-wrap">
                 <label style="font-weight:700;font-size:13px">Skill — Combat Clip</label>
                 <video id="video-skill" controls preload="none" poster="" src="">
-                  <!-- Replace src with your clip file -->
                   Your browser does not support the <code>video</code> element.
                 </video>
               </div>
@@ -129,7 +126,6 @@
 </div>
 
 <script>
-  // Chapter data: fill in your character details & story text here.
   const chapters = [
     {
       id: 0,
@@ -137,7 +133,7 @@
       subtitle: "The Promise of Forever",
       characterName: "SYNAP",
       image: "",
-      story: "------",
+      story: "To be added.",
       stats: { },
       basic: { desc: "—", video: "" },
       skill: { desc: "—", video: "" },
@@ -372,16 +368,6 @@
       paras[0] = paras[0].slice(1).trimStart();
     }
 
-    // convert paragraphs to HTML; quoted paragraphs become blockquotes
-    const html = paras.map(p => {
-      if(!p) return '';
-      if(/^['"“]/.test(p)){
-        const inner = p.replace(/^['"“]+|['"”]+$/g,'').trim();
-        return `<blockquote>${inner}</blockquote>`;
-      }
-      return `<p>${p}</p>`;
-    }).join('');
-
     storyBodyEl.innerHTML = html;
 
     // Chapter 0 special case: full text only
@@ -528,7 +514,6 @@
   // default show home tab
   showTab('tab-home');
 
-  // Expose some helpers to console for quick editing:
   window.SYNAP = {
     chapters,
     goToChapter,
