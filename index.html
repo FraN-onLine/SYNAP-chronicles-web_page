@@ -40,7 +40,7 @@
         <ul>
           <li>Play with unique Roles and Synergies</li>
           <li>Rich character lore across 11 chapters</li>
-          <li>Combat clip integration + stat readouts</li>
+          <li>Welcome to World of SYNAP</li>
         </ul>
       </div>
     </section>
@@ -69,7 +69,6 @@
           <div class="stats" id="stats">
             <h4>Stats</h4>
             <ul id="stats-list">
-              <!-- Stats inserted here -->
             </ul>
           </div>
 
@@ -96,7 +95,6 @@
               <div class="video-wrap">
                 <label style="font-weight:700;font-size:13px">Basic Attack — Combat Clip</label>
                 <video id="video-basic" controls preload="none" poster="" src="">
-                  <!-- Replace src with your clip file -->
                   Your browser does not support the <code>video</code> element.
                 </video>
               </div>
@@ -104,7 +102,6 @@
               <div class="video-wrap">
                 <label style="font-weight:700;font-size:13px">Skill — Combat Clip</label>
                 <video id="video-skill" controls preload="none" poster="" src="">
-                  <!-- Replace src with your clip file -->
                   Your browser does not support the <code>video</code> element.
                 </video>
               </div>
@@ -129,7 +126,6 @@
 </div>
 
 <script>
-  // Chapter data: fill in your character details & story text here.
   const chapters = [
     {
       id: 0,
@@ -137,7 +133,7 @@
       subtitle: "The Promise of Forever",
       characterName: "SYNAP",
       image: "",
-      story: "------",
+      story: "TTo be added.",
       stats: { },
       basic: { desc: "—", video: "" },
       skill: { desc: "—", video: "" },
@@ -362,27 +358,44 @@
     // story
     const raw = ch.story || '';
     const trimmedText = raw.trim();
-    const firstChar = trimmedText.charAt(0) || '';
-    dropcapEl.textContent = firstChar;
 
     // split into paragraphs by blank lines and trim
     const paras = trimmedText.split(/\n\s*\n/).map(p=>p.trim());
-    // remove first char from first paragraph to avoid duplicating after the dropcap
-    if(paras.length && paras[0].length){
-      paras[0] = paras[0].slice(1).trimStart();
+
+    // find the first alphanumeric character for the dropcap (skip opening quotes/punctuation)
+    const firstAlphaMatch = trimmedText.match(/[A-Za-zÀ-ÖØ-öø-ÿ0-9]/);
+    const firstAlphaIndex = firstAlphaMatch ? firstAlphaMatch.index : 0;
+    const dropcapChar = trimmedText.charAt(firstAlphaIndex) || '';
+
+    // Determine if the first paragraph is a quoted lead (starts with a quote character)
+    const firstPara = paras[0] || '';
+    const startsWithQuote = /^[\u201C\u201E\u00AB"]/i.test(firstPara);
+
+    if(startsWithQuote){
+      // hide the big dropcap when the first statement is a quote
+      dropcapEl.style.display = 'none';
+      dropcapEl.textContent = '';
+    } else {
+      dropcapEl.style.display = '';
+      dropcapEl.textContent = dropcapChar;
+      // remove the dropcap character from the first paragraph (preserve leading punctuation/quotes)
+      if(paras.length && paras[0].length){
+        const p = paras[0];
+        paras[0] = p.slice(0, firstAlphaIndex) + p.slice(firstAlphaIndex + 1);
+      }
     }
 
-    // convert paragraphs to HTML; quoted paragraphs become blockquotes
-    const html = paras.map(p => {
-      if(!p) return '';
-      if(/^['"“]/.test(p)){
-        const inner = p.replace(/^['"“]+|['"”]+$/g,'').trim();
-        return `<blockquote>${inner}</blockquote>`;
-      }
-      return `<p>${p}</p>`;
-    }).join('');
-
-    storyBodyEl.innerHTML = html;
+    // render paragraphs as <p> elements; add `lead-quote` class to first paragraph when quoted
+    storyBodyEl.innerHTML = '';
+    paras.forEach((p, idx) => {
+      const el = document.createElement('p');
+      if(idx === 0 && startsWithQuote) el.classList.add('lead-quote');
+      p.split('\n').forEach((line, i) => {
+        if(i) el.appendChild(document.createElement('br'));
+        el.appendChild(document.createTextNode(line));
+      });
+      storyBodyEl.appendChild(el);
+    });
 
     // Chapter 0 special case: full text only
     const statsContainer = document.getElementById('stats');
@@ -528,7 +541,6 @@
   // default show home tab
   showTab('tab-home');
 
-  // Expose some helpers to console for quick editing:
   window.SYNAP = {
     chapters,
     goToChapter,
