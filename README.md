@@ -28,6 +28,7 @@ Books:
 18 - Vivian: (Immortality and the Loss of Dependence)  
 19 - Jadence: (Immortality and the Loss of Morality)  
 20 - Olmes: (Immortality and the Loss of Urgency)  
+21 - L'etoile: (Immortality and the Loss of Sensation)
 
 # Final Chapter
-21 - SYNAP: "Mortality and Humanity": (Immortality and the Loss of Being Human)  
+22 - SYNAP: "Mortality and Humanity": (Immortality and the Loss of Being Human)  
